@@ -28,3 +28,16 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function GET(request: NextRequest) {
+  try {
+    const campaigns = await prisma.campaign.findMany();
+    return NextResponse.json(campaigns);
+  } catch (error) {
+    console.error("Error fetching campaigns:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}

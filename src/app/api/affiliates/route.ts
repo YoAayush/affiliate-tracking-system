@@ -28,3 +28,16 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function GET(req: NextRequest) {
+  try {
+    const affiliates = await prisma.affiliate.findMany();
+    return NextResponse.json(affiliates);
+  } catch (error) {
+    console.error("Error fetching affiliate data:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch affiliate data" },
+      { status: 500 }
+    );
+  }
+}
