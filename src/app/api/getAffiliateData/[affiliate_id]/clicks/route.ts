@@ -1,15 +1,8 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-interface Context {
-  params: { affiliate_id: string };
-}
-
-export async function GET(
-  req: NextRequest,
-  context: Context
-) {
-  const { affiliate_id } = context.params;
+export async function GET(req: NextRequest, { params }: { params: any }) {
+  const { affiliate_id } = params;
 
   try {
     const affiliate = await prisma.affiliate.findUnique({
