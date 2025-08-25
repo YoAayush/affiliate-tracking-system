@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { affiliate_id: string } }
+  context: { params: { affiliate_id: string } }
 ) {
-  const { affiliate_id } = await params;
+  const { affiliate_id } = context.params;
 
   try {
     const affiliate = await prisma.affiliate.findUnique({
