@@ -92,8 +92,18 @@ export default function AffiliateDashboard() {
         return new Date(timestamp).toLocaleString()
     }
 
-    const totalRevenue = conversions.reduce((sum, conversion) => sum + Number(conversion.amount ?? 0), 0)
-    const conversionRate = clicks.length > 0 ? ((conversions.length / clicks.length) * 100).toFixed(2) : "0.00"
+    const totalRevenue = conversions.reduce(
+        (sum, conversion) => sum + Number(conversion.amount ?? 0), // add each amount (or 0 if null/undefined)
+        0 // start sum at 0
+    );
+
+    const conversionRate =
+        clicks.length > 0 // only calculate if clicks exist
+            ? ((conversions.length / clicks.length) * 100).toFixed(2) // percentage of conversions from clicks (2 decimals)
+            : "0.00"; // default if no clicks
+
+    console.log("Total Revenue:", totalRevenue)
+    console.log("Conversion Rate:", conversionRate)
 
     if (loading) {
         return (
@@ -151,6 +161,30 @@ export default function AffiliateDashboard() {
                                     <p className="text-3xl font-bold">{conversions.length > 0 ? conversions.length : 0}</p>
                                 </div>
                                 <TrendingUp className="h-5 w-5 text-muted-foreground" />
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="bg-gray-50">
+                        <CardContent className="p-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-muted-foreground mb-2">Total Revenue</p>
+                                    <p className="text-3xl font-bold">{formatCurrency(totalRevenue, "USD")}</p>
+                                </div>
+                                <TrendingUp className="h-5 w-5 text-green-600" />
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="bg-gray-50">
+                        <CardContent className="p-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-medium text-muted-foreground mb-2">Conversion Rate</p>
+                                    <p className="text-3xl font-bold">{conversionRate}%</p>
+                                </div>
+                                <TrendingUp className="h-5 w-5 text-blue-600" />
                             </div>
                         </CardContent>
                     </Card>
