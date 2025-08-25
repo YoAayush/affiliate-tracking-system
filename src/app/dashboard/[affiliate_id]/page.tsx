@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
-// import { Navigation } from "@/components/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -20,7 +19,13 @@ export default function AffiliateDashboard() {
     const [loading, setLoading] = useState(true)
     const [allAffiliates, setAllAffiliates] = useState<Affiliate[]>([])
 
-    console.log(clicks)
+    const [baseUrl, setBaseUrl] = useState("");
+
+    useEffect(() => {
+        setBaseUrl(window.location.origin);
+    }, []);
+
+    // console.log(clicks)
 
     useEffect(() => {
         if (affiliateId) {
@@ -183,7 +188,7 @@ export default function AffiliateDashboard() {
                                                         size="sm"
                                                         onClick={() =>
                                                             copyToClipboard(
-                                                                `${window.location.origin}/api/postback?affiliate_id=${affiliateId}&click_id=${click.clickId}&amount=99.99&currency=USD`,
+                                                                `${baseUrl}/api/postback?affiliate_id=${affiliateId}&click_id=${click.clickId}&amount=99.99&currency=USD`,
                                                             )
                                                         }
                                                     >
@@ -221,14 +226,14 @@ export default function AffiliateDashboard() {
                             <h3 className="font-medium mb-2">Click Tracking URL Format</h3>
                             <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                                 <code className="flex-1 text-sm font-mono">
-                                    {`${window.location.origin}/api/track?affiliate_id=${affiliateId}&campaign_id=1`}
+                                    {`${baseUrl}/api/track?affiliate_id=${affiliateId}&campaign_id=1`}
                                 </code>
                                 <Button
                                     variant="ghost"
                                     size="sm"
                                     onClick={() =>
                                         copyToClipboard(
-                                            `${window.location.origin}/api/click?affiliate_id=${affiliateId}&campaign_id=1`,
+                                            `${baseUrl}/api/click?affiliate_id=${affiliateId}&campaign_id=1`,
                                         )
                                     }
                                 >
@@ -242,14 +247,14 @@ export default function AffiliateDashboard() {
                             <h3 className="font-medium mb-2">Postback URL (GET Method)</h3>
                             <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                                 <code className="flex-1 text-sm font-mono">
-                                    {`${window.location.origin}/api/postback?affiliate_id=${affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`}
+                                    {`${baseUrl}/api/postback?affiliate_id=${affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`}
                                 </code>
                                 <Button
                                     variant="ghost"
                                     size="sm"
                                     onClick={() =>
                                         copyToClipboard(
-                                            `${window.location.origin}/api/postback?affiliate_id=${affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`,
+                                            `${baseUrl}/api/postback?affiliate_id=${affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`,
                                         )
                                     }
                                 >
@@ -260,7 +265,7 @@ export default function AffiliateDashboard() {
                                     size="sm"
                                     onClick={() =>
                                         window.open(
-                                            `${window.location.origin}/api/postback?affiliate_id=${affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`,
+                                            `${baseUrl}/api/postback?affiliate_id=${affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`,
                                             "_blank",
                                         )
                                     }

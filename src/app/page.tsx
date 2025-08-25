@@ -15,7 +15,12 @@ export default function Home() {
   const [selectedAffiliate, setSelectedAffiliate] = useState<string>("")
   const [loading, setLoading] = useState(true)
 
-  const baseUrl = window.location.origin
+  const [baseUrl, setBaseUrl] = useState("");
+
+  useEffect(() => {
+    setBaseUrl(window.location.origin);
+  }, []);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -143,14 +148,14 @@ export default function Home() {
               <h3 className="font-medium mb-2">Postback URL (GET Method)</h3>
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                 <code className="flex-1 text-sm font-mono">
-                  {`${window.location.origin}/api/postback?affiliate_id=${selectedAffiliate ? selectedAffiliate : 'sample123'}&click_id=sample-click-123&amount=99.99&currency=USD`}
+                  {`${baseUrl}/api/postback?affiliate_id=${selectedAffiliate ? selectedAffiliate : 'sample123'}&click_id=sample-click-123&amount=99.99&currency=USD`}
                 </code>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() =>
                     copyToClipboard(
-                      `${window.location.origin}/api/postback?affiliate_id=${selectedAffiliate}&click_id=sample-click-123&amount=99.99&currency=USD`,
+                      `${baseUrl}/api/postback?affiliate_id=${selectedAffiliate}&click_id=sample-click-123&amount=99.99&currency=USD`,
                     )
                   }
                 >
@@ -161,7 +166,7 @@ export default function Home() {
                   size="sm"
                   onClick={() =>
                     window.open(
-                      `${window.location.origin}/api/postback?affiliate_id=${selectedAffiliate}&click_id=sample-click-123&amount=99.99&currency=USD`,
+                      `${baseUrl}/api/postback?affiliate_id=${selectedAffiliate}&click_id=sample-click-123&amount=99.99&currency=USD`,
                       "_blank",
                     )
                   }

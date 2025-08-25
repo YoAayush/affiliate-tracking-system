@@ -18,8 +18,12 @@ export default function PostbackUrlPage() {
     const [affiliate, setAffiliate] = useState<Affiliate | null>(null)
     const [loading, setLoading] = useState(true)
     const [copied, setCopied] = useState(false)
+    const [baseUrl, setBaseUrl] = useState("");
 
-    const baseUrl = window.location.origin
+    useEffect(() => {
+        setBaseUrl(window.location.origin);
+    }, []);
+    
     const postbackUrl = `${baseUrl}/postback?affiliate_id=${affiliateId}&click_id={click_id}&amount={amount}&currency={currency}`
 
     useEffect(() => {
