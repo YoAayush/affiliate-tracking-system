@@ -13,7 +13,7 @@ import { Affiliate } from "@/lib/interfaces"
 
 export default function PostbackUrlPage() {
     const params = useParams()
-    const affiliateId = params.affiliateId as string
+    const affiliateId = params.affiliate_id as string
 
     const [affiliate, setAffiliate] = useState<Affiliate | null>(null)
     const [loading, setLoading] = useState(true)
@@ -31,10 +31,11 @@ export default function PostbackUrlPage() {
     const fetchAffiliate = async () => {
         setLoading(true)
         try {
-            const response = await fetch(`/api/affiliates/${affiliateId}`)
-            if (response.ok) {
-                const data = await response.json()
-                setAffiliate(data)
+            const affiliateResponse = await axios.get(`/api/affiliates`)
+            if (affiliateResponse.status === 200) {
+                setAffiliate(
+                    affiliateResponse.data.find((aff: Affiliate) => aff.id === affiliateId) || null
+                )
             }
         } catch (error) {
             console.error("Error fetching affiliate:", error)
@@ -103,7 +104,7 @@ export default function PostbackUrlPage() {
                         <CardContent className="space-y-4">
                             <div>
                                 <Label htmlFor="postback-url">URL</Label>
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 mt-4">
                                     <Input id="postback-url" value={postbackUrl} readOnly className="font-mono text-sm" />
                                     <Button onClick={copyToClipboard} variant="outline" size="icon">
                                         {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
@@ -177,9 +178,7 @@ export default function PostbackUrlPage() {
                                     </p>
                                     <ul className="list-disc list-inside text-sm text-muted-foreground mt-2 space-y-1">
                                         <li>Server-side HTTP request</li>
-                                        <li>Pixel tracking (image tag)</li>
-                                        <li>JavaScript fetch/AJAX call</li>
-                                        <li>Webhook from your payment processor</li>
+                                        <li>JavaScript fetch/axios call</li>
                                     </ul>
                                 </div>
 
@@ -221,14 +220,14 @@ const firePostback = (clickId, amount, currency) => {
                                     </pre>
                                 </div>
 
-                                <div>
+                                {/* <div>
                                     <Label className="text-sm font-semibold">HTML Pixel (Image tag)</Label>
                                     <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto mt-2">
                                         {`<!-- Replace {click_id}, {amount}, {currency} with actual values -->
 <img src="${baseUrl}/postback?affiliate_id=${affiliateId}&click_id={click_id}&amount={amount}&currency={currency}" 
      width="1" height="1" style="display:none;" />`}
                                     </pre>
-                                </div>
+                                </div> */}
                             </div>
                         </CardContent>
                     </Card>

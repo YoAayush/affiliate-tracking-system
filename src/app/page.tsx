@@ -64,9 +64,6 @@ export default function Home() {
                         </SelectItem>
                       ))
                     }
-                    {/* <SelectItem value="affiliate-alpha">Affiliate Alpha</SelectItem>
-                    <SelectItem value="affiliate-beta">Affiliate Beta</SelectItem>
-                    <SelectItem value="affiliate-gamma">Affiliate Gamma</SelectItem> */}
                   </SelectContent>
                 </Select>
               </div>
@@ -74,11 +71,11 @@ export default function Home() {
                 <Link href={`/dashboard/${selectedAffiliate}`} className="flex-1">
                   <Button className="w-full">View Dashboard</Button>
                 </Link>
-                {/* <Link href={`/postback-url/${affiliateId}`} className="flex-1">
+                <Link href={`/postback-url/${selectedAffiliate}`} className="flex-1">
                   <Button variant="outline" className="w-full bg-transparent">
                     Postback URL
                   </Button>
-                </Link> */}
+                </Link>
               </div>
             </CardContent>
           </Card>
@@ -139,22 +136,21 @@ export default function Home() {
                   <Copy className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-sm text-muted-foreground mt-1">Replace campaign_id=1 with your actual campaign ID</p>
+              <p className="text-sm text-muted-foreground mt-1">Replace affiliate_id=sample123 & campaign_id=1 with your actual campaign & affiliate IDs</p>
             </div>
 
-            {/* <div>
+            <div>
               <h3 className="font-medium mb-2">Postback URL (GET Method)</h3>
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                 <code className="flex-1 text-sm font-mono">
-                  {`${window.location.origin}/api/postback?affiliate_id=
-                                    {affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`}
+                  {`${window.location.origin}/api/postback?affiliate_id=${selectedAffiliate ? selectedAffiliate : 'sample123'}&click_id=sample-click-123&amount=99.99&currency=USD`}
                 </code>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() =>
                     copyToClipboard(
-                      `${window.location.origin}/api/postback?affiliate_id=${affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`,
+                      `${window.location.origin}/api/postback?affiliate_id=${selectedAffiliate}&click_id=sample-click-123&amount=99.99&currency=USD`,
                     )
                   }
                 >
@@ -165,7 +161,7 @@ export default function Home() {
                   size="sm"
                   onClick={() =>
                     window.open(
-                      `${window.location.origin}/api/postback?affiliate_id=${affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`,
+                      `${window.location.origin}/api/postback?affiliate_id=${selectedAffiliate}&click_id=sample-click-123&amount=99.99&currency=USD`,
                       "_blank",
                     )
                   }
@@ -173,7 +169,7 @@ export default function Home() {
                   <ExternalLink className="h-4 w-4" />
                 </Button>
               </div>
-            </div> */}
+            </div>
 
             <div className="bg-blue-50 p-4 rounded-md">
               <h4 className="font-medium text-blue-900 mb-2">Integration Instructions</h4>

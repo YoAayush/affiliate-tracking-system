@@ -20,6 +20,8 @@ export default function AffiliateDashboard() {
     const [loading, setLoading] = useState(true)
     const [allAffiliates, setAllAffiliates] = useState<Affiliate[]>([])
 
+    console.log(clicks)
+
     useEffect(() => {
         if (affiliateId) {
             fetchDashboardData()
@@ -149,7 +151,62 @@ export default function AffiliateDashboard() {
                     </Card>
                 </div>
 
-                <Card className="mb-8">
+                {/* Available Click IDs */}
+                <Card className="my-8">
+                    <CardHeader>
+                        <CardTitle>Available Click IDs</CardTitle>
+                        <CardDescription>Use these actual click IDs in your postback URLs instead of sample data</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        {clicks.length > 0 ? (
+                            <div className="overflow-x-auto">
+                                <table className="w-full border-collapse">
+                                    <thead>
+                                        <tr className="border-b">
+                                            <th className="text-left p-3 font-medium">Click ID</th>
+                                            <th className="text-left p-3 font-medium">Campaign ID</th>
+                                            <th className="text-left p-3 font-medium">Timestamp</th>
+                                            <th className="text-left p-3 font-medium">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {clicks.map((click) => (
+                                            <tr key={click.clickId} className="border-b hover:bg-gray-50">
+                                                <td className="p-3">
+                                                    <code className="text-sm bg-gray-100 px-2 py-1 rounded">{click.clickId}</code>
+                                                </td>
+                                                <td className="p-3">{click.campaignId}</td>
+                                                <td className="p-3 text-sm text-muted-foreground">{formatDateTime(click.createdAt)}</td>
+                                                <td className="p-3">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            copyToClipboard(
+                                                                `${window.location.origin}/api/postback?affiliate_id=${affiliateId}&click_id=${click.clickId}&amount=99.99&currency=USD`,
+                                                            )
+                                                        }
+                                                    >
+                                                        <Copy className="h-3 w-3 mr-1" />
+                                                        Copy Postback URL
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <div className="text-center py-8 text-muted-foreground">
+                                <p>No clicks found for this affiliate.</p>
+                                <p className="text-sm mt-1">Generate some clicks using the tracking URL above to see click IDs here.</p>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+
+                {/* Postback URLs config */}
+                <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <LinkIcon className="h-5 w-5 text-blue-600" />
@@ -185,8 +242,7 @@ export default function AffiliateDashboard() {
                             <h3 className="font-medium mb-2">Postback URL (GET Method)</h3>
                             <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-md">
                                 <code className="flex-1 text-sm font-mono">
-                                    {`${window.location.origin}/api/postback?affiliate_id=
-                                    {affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`}
+                                    {`${window.location.origin}/api/postback?affiliate_id=${affiliateId}&click_id=sample-click-123&amount=99.99&currency=USD`}
                                 </code>
                                 <Button
                                     variant="ghost"
@@ -212,6 +268,7 @@ export default function AffiliateDashboard() {
                                     <ExternalLink className="h-4 w-4" />
                                 </Button>
                             </div>
+                            <p className="text-sm text-muted-foreground mt-1">Replace click_id=sample-click-123 with your actual click ID</p>
                         </div>
 
                         <div className="bg-blue-50 p-4 rounded-md">
