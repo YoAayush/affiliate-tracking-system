@@ -1,6 +1,9 @@
 import prisma from "@/lib/prisma";
 
-export async function GET(req: Request, { params }: { params: any }) {
+export async function GET(
+  req: Request,
+  { params }: { params: { affiliate_id: string } }
+) {
   const { affiliate_id } = params;
 
   try {

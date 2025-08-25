@@ -1,7 +1,10 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: any }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { affiliate_id: string } }
+) {
   const { affiliate_id } = params;
 
   try {
