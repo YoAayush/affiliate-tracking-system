@@ -1,9 +1,13 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+interface Context {
+  params: { affiliate_id: string };
+}
+
 export async function GET(
   req: NextRequest,
-  context: { params: { affiliate_id: string } }
+  context: Context
 ) {
   const { affiliate_id } = context.params;
 
